@@ -110,7 +110,7 @@ const Home = () => {
         {Object.keys(booksByPrimaryGenre).map((genre) => (
           <div key={genre} className="mb-8" id="genre">
             <h2 className="text-2xl font-bold text-gray-800 mb-4">{genre}</h2>
-            <div className="flex overflow-auto space-x-4 overflow-x-hidden md:overflow-x-block p-2">
+            <div className="flex overflow-auto space-x-4  md:overflow-x-auto p-2">
               {booksByPrimaryGenre[genre].map((book) => (
                 <div
                   key={book._id}
