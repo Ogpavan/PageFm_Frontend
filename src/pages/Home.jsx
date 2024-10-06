@@ -74,7 +74,7 @@ const Home = () => {
         <h1  className="text-4xl mulish-bold text-gray-800 mt-5 ">Read Write Record</h1>
         <p  className="text-md mulish-light text-gray-600 mb-5">Discover your next great read</p>
         <h2 className="text-2xl font-bold text-gray-800 mb-4">Most Popular</h2>
-        <div className="flex overflow-auto space-x-4 overflow-x-hidden md:overflow-x-block p-2">
+        <div className="flex overflow-auto space-x-4  md:overflow-x-auto p-2">
           {topReads.map((book) => (
             <div
               key={book._id}
