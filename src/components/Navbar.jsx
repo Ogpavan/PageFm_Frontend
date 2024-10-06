@@ -107,13 +107,13 @@ const Navbar = () => {
           isMobileMenuOpen ? 'block' : 'hidden'
         } md:flex md:items-center md:space-x-6`}
       >
-        <SearchBar className="mb-4 md:mb-0" />
+        <SearchBar className=" md:mb-0 my-4" />
         <Link
           to="/"
           onClick={closeMobileMenu}
           className={`text-md mulish-regular ${
             location.pathname === '/'
-              ? 'text-gray-800 bg-white rounded-full py-1 px-2'
+              ? 'bg-white text-gray-700 rounded-md px-4 py-2 shadow-md'
               : ''
           } md:ml-6`}
         >
@@ -124,7 +124,7 @@ const Navbar = () => {
           onClick={closeMobileMenu}
           className={`text-md mulish-regular ${
             location.pathname === '/about'
-              ? 'text-gray-800 bg-white rounded-full py-1 px-2'
+              ? 'bg-white text-gray-700 rounded-md px-4 py-2 shadow-md'
               : ''
           } md:ml-6`}
         >
@@ -149,8 +149,8 @@ const Navbar = () => {
           to="/career"
           onClick={closeMobileMenu}
           className={`text-md mulish-regular ${
-            location.pathname === '/contact'
-              ? 'text-gray-800 bg-white rounded-full py-1 px-2'
+            location.pathname === '/career'
+              ? 'bg-white text-gray-700 rounded-md px-4 py-2 shadow-md'
               : ''
           } md:ml-6`}
         >
@@ -164,7 +164,7 @@ const Navbar = () => {
               onClick={closeMobileMenu}
               className={`text-md mulish-regular ${
                 location.pathname === '/profile'
-                  ? 'text-gray-800 bg-white rounded-full py-1 px-2'
+                  ? 'bg-white text-gray-700 rounded-md px-4 py-2 shadow-md'
                   : ''
               } md:ml-2`}
             >
@@ -176,7 +176,7 @@ const Navbar = () => {
                 onClick={closeMobileMenu}
                 className={`text-md mulish-regular ${
                   location.pathname === '/audio'
-                    ? 'text-gray-800 bg-white rounded-full py-1 px-2'
+                    ? 'bg-white text-gray-700 rounded-md px-4 py-2 shadow-md'
                     : ''
                 } md:ml-6`}
               >
@@ -191,7 +191,7 @@ const Navbar = () => {
               onClick={closeMobileMenu}
               className={`text-md mulish-regular ${
                 location.pathname === '/login'
-                  ? 'text-gray-800 bg-white rounded-full py-1 px-2'
+                  ? 'bg-white text-gray-700 rounded-md px-4 py-2 shadow-md'
                   : ''
               } md:ml-6`}
             >
@@ -202,7 +202,7 @@ const Navbar = () => {
               onClick={closeMobileMenu}
               className={`text-md mulish-regular ${
                 location.pathname === '/signup'
-                  ? 'text-gray-800 bg-white rounded-full py-1 px-2'
+                  ? 'bg-white text-gray-700 rounded-md px-4 py-2 shadow-md'
                   : ''
               } md:ml-6`}
             >
@@ -214,7 +214,7 @@ const Navbar = () => {
           to={user ? '/bookmarks' : '/login'}
           onClick={closeMobileMenu}
           className={`text-md mulish-regular flex items-center ${
-            location.pathname === '/bookmarks' ? 'px-2 py-1' : ''
+            location.pathname === '/bookmarks' ? 'bg-white text-gray-700 rounded-md px-4 py-2 shadow-md' : ''
           } md:ml-6`}
         >
           <FaBookmark className="ml-1" />

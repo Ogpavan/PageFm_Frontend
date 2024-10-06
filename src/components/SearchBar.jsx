@@ -39,7 +39,7 @@ const SearchBar = () => {
   };
 
   return (
-    <div className="relative  md:min-w-96   ">
+    <div className="relative  md:min-w-96 my-5 md:my-0   ">
       <input
         type="text"
         value={searchQuery}
