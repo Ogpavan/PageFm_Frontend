@@ -3,5 +3,5 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
-  base: 'http://localhost:5000', // Replace with your desired base URL
+  base: 'https://page-fm-backend.vercel.app', // Replace with your desired base URL
 });
