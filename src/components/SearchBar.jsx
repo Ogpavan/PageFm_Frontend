@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const SearchBar = () => {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [filteredBooks, setFilteredBooks] = useState([]);
+  const [query, setQuery] = useState('');
   const [books, setBooks] = useState([]);
+  const [filteredBooks, setFilteredBooks] = useState([]);
   const navigate = useNavigate();
 
-  // Fetch books from the API on component mount
+  // Fetch all books on component mount
   useEffect(() => {
     const fetchBooks = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/books}`);
+        const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/books`);
         setBooks(response.data);
       } catch (error) {
         console.error('Error fetching books:', error);
@@ -22,49 +22,45 @@ const SearchBar = () => {
     fetchBooks();
   }, []);
 
-  // Function to handle search query
-  const handleSearch = (e) => {
-    const query = e.target.value.toLowerCase();
-    setSearchQuery(query);
+  // Filter books based on the search query
+  useEffect(() => {
+    if (query) {
+      const filtered = books.filter((book) =>
+        book.title.toLowerCase().includes(query.toLowerCase())
+      );
+      setFilteredBooks(filtered);
+    } else {
+      setFilteredBooks([]);
+    }
+  }, [query, books]);
 
-    const filtered = books.filter((book) =>
-      book.title.toLowerCase().includes(query)
-    );
-    setFilteredBooks(filtered);
-  };
-
-  // Function to handle book click
+  // Handle book selection
   const handleBookClick = (bookId) => {
-    navigate(`/books/${bookId}`);
+    navigate(`/book/${bookId}`);
+    setQuery(''); // Clear the search input after selecting a book
   };
 
   return (
-    <div className="relative  md:min-w-96 my-5 md:my-0   ">
+    <div className="relative w-full md:max-w-lg mx-auto">
       <input
         type="text"
-        value={searchQuery}
-        onChange={handleSearch}
-        placeholder="Search for books..."
-        className="shadow-lg rounded-full  p-2 text-black px-4 w-full outline-none"
+        placeholder="Search for a book..."
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        className="w-full px-4 py-2 border border-gray-400 rounded-full outline-none "
       />
-
-      {/* Dropdown for search results */}
-      {searchQuery && (
-        <ul className="absolute top-full left-0 right-0 mt-2 border rounded bg-white shadow-lg z-10">
-          {filteredBooks.length > 0 ? (
-            filteredBooks.map((book) => (
-              <li
-                key={book._id} // Use _id for MongoDB documents
-                className="p-2 border-b hover:bg-gray-200 cursor-pointer"
-                onClick={() => handleBookClick(book._id)} // Navigate to book detail page
-              >
-                {book.title}
-              </li>
-            ))
-          ) : (
-            <li className="p-2 text-center text-red-500">No books found.</li>
-          )}
-        </ul>
+      {filteredBooks.length > 0 && (
+        <div className="absolute left-0 right-0 z-10 mt-2 bg-white border border-gray-200 rounded-md shadow-lg max-h-60 overflow-y-auto md:max-h-80">
+          {filteredBooks.map((book) => (
+            <div
+              key={book._id}
+              onClick={() => handleBookClick(book._id)}
+              className="px-4 py-2 cursor-pointer hover:bg-gray-100"
+            >
+              {book.title}
+            </div>
+          ))}
+        </div>
       )}
     </div>
   );

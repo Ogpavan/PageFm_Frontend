@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useMemo } from 'react';
 
 // Create the BookmarkContext
 const BookmarkContext = createContext();
@@ -18,9 +18,11 @@ export const BookmarkProvider = ({ children }) => {
 
   // Add bookmark and update local storage
   const addBookmark = (book) => {
-    const updatedBookmarks = [...bookmarks, book];
-    setBookmarks(updatedBookmarks);
-    localStorage.setItem('bookmarks', JSON.stringify(updatedBookmarks));
+    if (!bookmarks.some(b => b._id === book._id)) { // Prevent duplicates
+      const updatedBookmarks = [...bookmarks, book];
+      setBookmarks(updatedBookmarks);
+      localStorage.setItem('bookmarks', JSON.stringify(updatedBookmarks));
+    }
   };
 
   // Remove bookmark and update local storage
@@ -30,16 +32,11 @@ export const BookmarkProvider = ({ children }) => {
     localStorage.setItem('bookmarks', JSON.stringify(updatedBookmarks));
   };
 
-  // Use an effect to initialize bookmarks from local storage if available
-  useEffect(() => {
-    const storedBookmarks = localStorage.getItem('bookmarks');
-    if (storedBookmarks) {
-      setBookmarks(JSON.parse(storedBookmarks));
-    }
-  }, []);
+  // Memoize the values to avoid re-renders
+  const value = useMemo(() => ({ bookmarks, addBookmark, removeBookmark }), [bookmarks]);
 
   return (
-    <BookmarkContext.Provider value={{ bookmarks, addBookmark, removeBookmark }}>
+    <BookmarkContext.Provider value={value}>
       {children}
     </BookmarkContext.Provider>
   );

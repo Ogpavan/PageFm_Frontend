@@ -3,10 +3,11 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { auth, db } from '../pages/firebaseConfig';
 import { doc, getDoc } from 'firebase/firestore';
-import { FaBookmark, FaBars, FaTimes } from 'react-icons/fa';
+import { FaBookmark, FaBars, FaTimes, FaUserCircle, FaHome, FaInfoCircle, FaPowerOff } from 'react-icons/fa'; // Import relevant icons
 import Modal from '../components/Modal';
 import SearchBar from './SearchBar';
 import axios from 'axios';
+import { TfiPowerOff } from "react-icons/tfi";
 
 const Navbar = () => {
   const [user, setUser] = useState(null);
@@ -16,6 +17,7 @@ const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [genres, setGenres] = useState(['Genres']);
   const [selectedGenre, setSelectedGenre] = useState('Genres');
+  const [showProfileDropdown, setShowProfileDropdown] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -45,16 +47,17 @@ const Navbar = () => {
   useEffect(() => {
     const fetchGenres = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/genres`);
+        const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/books/genres`);
+        console.log('Genres fetched:', response.data);
         setGenres(['All Genres', ...response.data]);
       } catch (error) {
         console.error('Error fetching genres:', error);
       }
     };
-
+  
     fetchGenres();
   }, []);
-
+  
   const handleLogout = async () => {
     try {
       await signOut(auth);
@@ -88,9 +91,17 @@ const Navbar = () => {
     setShowLogoutModal(false);
   };
 
+  const toggleProfileDropdown = () => {
+    setShowProfileDropdown(!showProfileDropdown);
+  };
+
+  const closeProfileDropdown = () => {
+    setShowProfileDropdown(false);
+  };
+
   return (
-    <nav className="text-white p-4 flex flex-col md:flex-row justify-between px-10 items-center shadow-md mx-auto bg-[#F52549]">
-      <div className="flex justify-between items-center w-full md:w-auto ">
+    <nav className="p-5 flex flex-col md:flex-row justify-between md:px-10 items-center md:mx-auto  max-w-[1450px]">
+      <div className="flex justify-between items-center w-full md:w-auto py-2">
         <Link to="/" className="text-xl font-bold cinzel-decorative-bold">
           PageFM
         </Link>
@@ -107,35 +118,36 @@ const Navbar = () => {
           isMobileMenuOpen ? 'block' : 'hidden'
         } md:flex md:items-center md:space-x-6`}
       >
-        <SearchBar className=" md:mb-0 my-4" />
+        <div>
+          <SearchBar className="md:mb-0 my-4" />
+        </div>
         <Link
           to="/"
           onClick={closeMobileMenu}
           className={`text-md mulish-regular ${
             location.pathname === '/'
-              ? 'bg-white text-gray-700 rounded-md px-4 py-2 shadow-md'
+              ? 'border-b-2 border-gray-700'
               : ''
           } md:ml-6`}
-        >
-          Home
+        > Home
         </Link>
         <Link
           to="/about"
           onClick={closeMobileMenu}
           className={`text-md mulish-regular ${
             location.pathname === '/about'
-              ? 'bg-white text-gray-700 rounded-md px-4 py-2 shadow-md'
+              ? 'border-b-2 border-gray-700'
               : ''
           } md:ml-6`}
         >
-          About
+         About
         </Link>
 
         {/* Genres dropdown */}
         <select
           value={selectedGenre}
           onChange={handleGenreChange}
-          className="bg-white text-gray-700 rounded-md px-4 py-2 shadow-md"
+          className="outline-none text-md mulish-regular md:ml-6"
         >
           {genres.map((genre) => (
             <option key={genre} value={genre}>
@@ -144,13 +156,12 @@ const Navbar = () => {
           ))}
         </select>
 
-
         <Link
           to="/career"
           onClick={closeMobileMenu}
           className={`text-md mulish-regular ${
             location.pathname === '/career'
-              ? 'bg-white text-gray-700 rounded-md px-4 py-2 shadow-md'
+              ? 'border-b-2 border-gray-700'
               : ''
           } md:ml-6`}
         >
@@ -158,30 +169,46 @@ const Navbar = () => {
         </Link>
 
         {user ? (
-          <div className="flex items-center gap-x-4">
-            <Link
-              to="/profile"
-              onClick={closeMobileMenu}
-              className={`text-md mulish-regular ${
-                location.pathname === '/profile'
-                  ? 'bg-white text-gray-700 rounded-md px-4 py-2 shadow-md'
-                  : ''
-              } md:ml-2`}
+          <div className="relative">
+            <button
+              onClick={toggleProfileDropdown}
+              className="flex items-center text-md mulish-regular md:ml-0 focus:outline-none"
             >
-              Profile
-            </Link>
-            {userRole === 'RJ' && (
-              <Link
-                to="/audio"
-                onClick={closeMobileMenu}
-                className={`text-md mulish-regular ${
-                  location.pathname === '/audio'
-                    ? 'bg-white text-gray-700 rounded-md px-4 py-2 shadow-md'
-                    : ''
-                } md:ml-6`}
-              >
-                Audio
-              </Link>
+              <FaUserCircle className="text-2xl" />
+              <span className="ml-2">{userName}</span>
+            </button>
+            {showProfileDropdown && (
+              <div className="absolute right-0 mt-2 w-48 bg-white rounded shadow-lg z-10">
+                <Link
+                  to="/profile"
+                  onClick={closeMobileMenu}
+                  className="block px-4 py-2 text-md text-gray-700 hover:bg-gray-100"
+                >
+                  <FaUserCircle className="inline-block mr-1" /> Profile
+                </Link>
+                {userRole === 'RJ' && (
+                  <Link
+                    to="/audio"
+                    onClick={closeMobileMenu}
+                    className="block px-4 py-2 text-md text-gray-700 hover:bg-gray-100"
+                  >
+                    <FaBookmark className="inline-block mr-1" /> Audio
+                  </Link>
+                )}
+                <Link
+                  to="/bookmarks"
+                  onClick={closeMobileMenu}
+                  className="block px-4 py-2 text-md text-gray-700 hover:bg-gray-100"
+                >
+                  <FaBookmark className="inline-block mr-1" /> Bookmarks
+                </Link>
+                <button
+                  onClick={openLogoutModal}
+                  className=" text-red-500 block w-full text-left px-4 py-2 text-md  hover:bg-gray-100"
+                >
+                <TfiPowerOff  className="inline-block mr-1" />  Logout
+                </button>
+              </div>
             )}
           </div>
         ) : (
@@ -191,7 +218,7 @@ const Navbar = () => {
               onClick={closeMobileMenu}
               className={`text-md mulish-regular ${
                 location.pathname === '/login'
-                  ? 'bg-white text-gray-700 rounded-md px-4 py-2 shadow-md'
+                  ? 'border-b-2 border-gray-700'
                   : ''
               } md:ml-6`}
             >
@@ -202,7 +229,7 @@ const Navbar = () => {
               onClick={closeMobileMenu}
               className={`text-md mulish-regular ${
                 location.pathname === '/signup'
-                  ? 'bg-white text-gray-700 rounded-md px-4 py-2 shadow-md'
+                  ? 'border-b-2 border-gray-700'
                   : ''
               } md:ml-6`}
             >
@@ -210,15 +237,6 @@ const Navbar = () => {
             </Link>
           </>
         )}
-        <Link
-          to={user ? '/bookmarks' : '/login'}
-          onClick={closeMobileMenu}
-          className={`text-md mulish-regular flex items-center ${
-            location.pathname === '/bookmarks' ? 'bg-white text-gray-700 rounded-md px-4 py-2 shadow-md' : ''
-          } md:ml-6`}
-        >
-          <FaBookmark className="ml-1" />
-        </Link>
       </div>
 
       <Modal

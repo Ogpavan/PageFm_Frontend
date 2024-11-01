@@ -1,97 +1,77 @@
-// src/pages/About.jsx
-
 import React from 'react';
-import { BsArrowsMove, BsCloudHaze2Fill, BsFillCupHotFill } from 'react-icons/bs';
+import { Link } from 'react-router-dom';
 
 const About = () => {
   return (
-    <div className="min-h-screen bg-gray-100">
-      {/* Hero Section */}
-      <section className="relative bg-gray-800 text-white h-[50vh] flex items-center justify-center">
-        <div className="absolute inset-0 bg-black opacity-50"></div>
-        <div className="relative z-10 text-center p-6">
-          <h1 className="text-5xl font-bold mb-4">About Bookify</h1>
-          <p className="text-lg text-wrap ">
-            Discover your next great read with Bookify.  Our platform offers a seamless reading experience with a diverse selection of books.
+    <div className="  text-gray-800 py-16 px-8 md:px-20 lg:px-36 space-y-16">
+      
+      {/* Header Section */}
+      <div className="text-center space-y-8 md:space-y-4">
+        <h2 className="text-4xl md:text-4xl font-bold tracking-wide text-gray-800 mb-4">
+          About Us
+        </h2>
+        <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto mulish-regular">
+          At our platform, we bring together the magic of storytelling, the art of narration, and the joy of reading. Here, writers, RJs, and readers come together to share, listen, and explore stories in a dynamic new way.
+        </p>
+      </div>
+
+      {/* Mission Statement Section */}
+      <div className="flex flex-col md:flex-row md:space-x-8 items-center md:items-start space-y-8 md:space-y-0">
+        <div className="md:w-1/2 lg:w-1/3">
+          <img
+            src="https://images.pexels.com/photos/3184405/pexels-photo-3184405.jpeg?auto=compress&cs=tinysrgb&w=800"
+            alt="Our Mission"
+            className="w-full h-full rounded-lg object-cover shadow-lg transition-transform transform hover:scale-105"
+          />
+        </div>
+        <div className="md:w-1/2 lg:w-2/3 text-center md:text-left">
+          <h3 className="text-3xl font-semibold mb-4">Our Mission</h3>
+          <p className="text-gray-600 mulish-regular text-lg">
+            We empower storytellers, writers, and narrators to share their creativity and connect with audiences worldwide. Through seamless publishing and immersive audio, we make it possible to bridge the gap between words and voice.
           </p>
         </div>
-      </section>
+      </div>
 
-      {/* Information Section */}
-      <section className="py-16 px-4">
-        <div className="container mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-            <div className="flex flex-col justify-center  p-6">
-              <h2 className="text-4xl font-bold mb-4 ">Our Mission</h2>
-              <p className="text-lg mb-4">
-                At Bookify, we aim to provide an extensive library of books accessible to everyone. Our mission is to connect readers with their next favorite book through an easy-to-use platform.
-              </p>
-              <p className="text-lg">
-                We are dedicated to offering a wide range of genres, from classic literature to modern bestsellers, ensuring that every reader finds something they love.
-              </p>
-            </div>
-            <div className="flex flex-col justify-center p-6">
-              <h2 className="text-4xl font-bold mb-4">Our Team</h2>
-              <p className="text-lg mb-4">
-                Our team is composed of passionate book lovers and tech enthusiasts who are committed to enhancing the reading experience. With a blend of creativity and technical expertise, we strive to deliver the best service possible.
-              </p>
-              <p className="text-lg">
-                Meet our team of dedicated individuals who work tirelessly to bring Bookify to life and provide an exceptional platform for readers and book enthusiasts.
-              </p>
-            </div>
-          </div>
+      {/* Roles Section */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-10 text-center">
+        
+        {/* Writers Section */}
+        <div className="bg-white p-8 rounded-lg shadow-lg transform transition-transform hover:-translate-y-2">
+          <h4 className="text-2xl font-semibold mb-3 text-gray-900">For Writers</h4>
+          <p className="text-gray-600 mulish-regular">
+            Step into the spotlight by publishing your stories effortlessly. Connect with readers who are eager to explore new worlds and ideas crafted by you. Share your voice, inspire imaginations, and leave a lasting impact.
+          </p>
         </div>
-      </section>
 
-      {/* Key Features Section */}
-      <section className="py-16 bg-gray-200">
-        <div className="container mx-auto">
-          <h2 className="text-4xl font-bold text-center mb-8">Key Features</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center p-6">
-            <div className="bg-white p-6 rounded-lg shadow-lg ">
-              <div className='text-4xl w-full flex justify-center p-2'>
-            <BsArrowsMove />
-
-              </div>
-              <h3 className="text-2xl font-bold mb-4">Wide Selection</h3>
-              <p className="text-lg">
-                Browse through a diverse collection of books across various genres and find your next favorite read.
-              </p>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-lg">
-              <div className='text-4xl w-full flex justify-center p-2'>
-              <BsCloudHaze2Fill />
-              </div>
-              <h3 className="text-2xl font-bold mb-4">Seamless Experience</h3>
-              <p className="text-lg">
-                Enjoy a smooth and intuitive interface designed for easy navigation and reading.
-              </p>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-lg">
-              <div className='text-4xl w-full flex justify-center p-2'>
-              <BsFillCupHotFill />
-              </div>
-              <h3 className="text-2xl font-bold mb-4">Personalized Recommendations</h3>
-              <p className="text-lg">
-                Receive book suggestions tailored to your preferences and reading history.
-              </p>
-            </div>
-          </div>
+        {/* RJs Section */}
+        <div className="bg-white p-8 rounded-lg shadow-lg transform transition-transform hover:-translate-y-2">
+          <h4 className="text-2xl font-semibold mb-3 text-gray-900">For RJs</h4>
+          <p className="text-gray-600 mulish-regular">
+            Bring words to life with your unique voice. Record  audio versions of stories, enriching each tale with tone, emotion, and passion. Your narration connects listeners deeply to the narrative, making each story unforgettable.
+          </p>
         </div>
-      </section>
 
-      {/* CTA Section */}
-      <section className="py-16 bg-gray-800 text-white text-center">
-        <h2 className="text-3xl font-bold mb-4">Get in Touch</h2>
-        <p className="text-lg mb-8 text-wrap">
-          Have any questions or feedback? We’d love to hear from you! Reach out to us through our contact page or follow us on social media.
+        {/* Readers Section */}
+        <div className="bg-white p-8 rounded-lg shadow-lg transform transition-transform hover:-translate-y-2">
+          <h4 className="text-2xl font-semibold mb-3 text-gray-900">For Readers</h4>
+          <p className="text-gray-600 mulish-regular">
+            Discover captivating stories in both written and narrated formats. Whether you prefer the immersive experience of reading or listening to stories come to life, our platform offers something for everyone.
+          </p>
+        </div>
+      </div>
+
+      {/* Closing Section */}
+      <div className="text-center space-y-4 ">
+        <h3 className="text-3xl font-semibold text-gray-900 mulish-regular">Join Us in the World of Stories</h3>
+        <p className="text-lg text-gray-600 max-w-3xl mx-auto mulish-regular">
+          We believe stories have the power to inspire, entertain, and connect people across the globe. Whether you’re here to write, narrate, or read, you’re part of a growing community that values the art of storytelling.
         </p>
-        <a className="group relative inline-flex border border-red-500 focus:outline-none   w-auto" href="/docs">
-              <span className="md:w-full w-auto inline-flex items-center justify-center self-stretch px-4 py-2 text-sm text-white text-center uppercase bg-red-500 ring-1 ring-red-500 ring-offset-1 ring-offset-red-500 transform transition-transform group-hover:-translate-y-1 group-hover:-translate-x-1 group-focus:-translate-y-1 group-focus:-translate-x-1 mulish-regular">
-                Contact Us
-              </span>
-            </a>
-      </section>
+        <Link to="/profile" >
+        <button  className="px-6 py-3 bg-blue-600 text-white rounded-full font-semibold mt-6 hover:bg-blue-700 transition">
+          Start Your Journey
+        </button>
+        </Link>
+      </div>
     </div>
   );
 };

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
 import Navbar from './components/Navbar';
-import BookDetail from './pages/BookDetails';
+import BookDetails from './pages/BookDetails';
 import Bookmarks from './pages/BookMarks';
 import About from './pages/About';
 import Login from './pages/Login';
@@ -23,6 +23,10 @@ import Test from './pages/Test';
 import WriterProfileViewer from './components/WritersProfileViewer';
 import GenrePage from './pages/GenrePage';
 import TermsAndConditions from './pages/TermsAndConditions.jsx';
+import BookContentPage from './pages/BookContentPage.jsx';
+import BookDetailsPage from './pages/BookDetailsPage.jsx';
+import EpisodeDetails from './components/EpisodeDetails.jsx';
+import AdminPage from './components/Admin.jsx';
 
 const App = () => {
   const [user, setUser] = useState(null); // Store authenticated user
@@ -49,7 +53,9 @@ const App = () => {
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/books/:id" element={<BookDetail />} />
+          <Route path="/book/:id" element={<BookDetails />} />
+<Route path="/books/:bookId/episodes/:episodeId" element={<EpisodeDetails />} />
+
           <Route path="/bookmarks" element={<Bookmarks />} />
           <Route path="/about" element={<About />} />
           <Route path="/login" element={<Login />} />
@@ -64,8 +70,13 @@ const App = () => {
           <Route path="/profile" element={<WritersProfile />} />
           <Route path="/writer/:writerId" element={<WriterProfileViewer />} />
           <Route path='/termsandconditions' element={<TermsAndConditions />} />
+
+          <Route path="/book-content" element={<BookContentPage />} />
+          <Route path="/book-details" element={<BookDetailsPage />} />
           
           <Route path="/audio" element={<AudioUpload />} />
+          <Route path="/wp-admin" element={<AdminPage />} />
+
 
 
           <Route path="/test" element={<Test />} />
