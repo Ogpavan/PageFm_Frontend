@@ -24,7 +24,7 @@ const CareerPage = () => {
         
       </div>
 
-      <div className="mt-10 space-y-8 w-1/2 md:mx-auto">
+      <div className="mt-10 space-y-8 w-full md:w-1/2 md:mx-auto">
         {careers.map((career) => (
           <div key={career._id} className="border border-gray-300 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow duration-300">
             <h2 className="text-xl font-semibold text-gray-900 mb-2">{career.title}</h2>
