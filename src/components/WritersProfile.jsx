@@ -144,103 +144,117 @@ const WriterProfile = () => {
   if (error) return <div className="text-center mt-10 text-red-500">{error}</div>;
 
   return (
-    <div className="flex flex-col md:flex-row bg-gray-100 min-h-screen">
-      <aside className="w-full md:w-1/4 p-6 bg-white shadow-lg rounded-lg mb-4 md:mb-0">
-        <div className="flex flex-col items-center">
+    <div className="md:px-20 py-5   min-h-screen">
+     
+
+      <div className="bg-white shadow rounded-lg p-6">
+      <div className="flex flex-col md:flex-row items-center justify-between mb-10">
+        <div className="flex items-center">
           {profilePic ? (
-            <img src={profilePic} alt="Profile" className="rounded-full h-32 w-32 object-cover mb-4 border-2 border-gray-300" />
+            <img src={profilePic} alt="Profile" className="rounded-full h-20 w-20 object-cover mr-4" />
           ) : (
-            <div className="rounded-full h-32 w-32 bg-gray-200 mb-4"></div>
+            <div className="rounded-full h-20 w-20 bg-gray-200 mr-4"></div>
           )}
-          <h2 className="text-xl font-bold text-center flex items-center justify-center">
-            {writerName}
-            <MdOutlineEdit  
-              onClick={() => setIsEditing(!isEditing)}
-              className="inline cursor-pointer ml-2 text-gray-600 hover:text-gray-800 transition"
-            />
-          </h2>
-          {isEditing && (
-            <div className="mt-4 w-full">
-              <input 
-                type="text"
-                value={newName}
-                onChange={(e) => setNewName(e.target.value)}
-                className="border border-gray-300 p-2 w-full rounded"
-                placeholder="Change your name"
+          <div>
+            <h2 className="text-2xl font-bold flex items-center">
+              {writerName}
+              <MdOutlineEdit  
+                onClick={() => setIsEditing(!isEditing)}
+                className="inline cursor-pointer ml-2 text-gray-600 hover:text-gray-800 transition"
               />
-              <input 
-                type="file"
-                onChange={handleProfileImageChange}
-                className="mt-2 w-full"
-              />
-              <button
-                onClick={handleChangeName}
-                className="mt-4 w-full bg-green-500 text-white py-2 rounded hover:bg-green-600 transition"
-              >
-                Update Profile
-              </button>
-            </div>
-          )}
+            </h2>
+            {isEditing && (
+              <div className="mt-2">
+                <input 
+                  type="text"
+                  value={newName}
+                  onChange={(e) => setNewName(e.target.value)}
+                  className="border border-gray-300 p-2 w-full rounded"
+                  placeholder="Change your name"
+                />
+                <input 
+                  type="file"
+                  onChange={handleProfileImageChange}
+                  className="mt-2 w-full"
+                />
+                <button
+                  onClick={handleChangeName}
+                  className="mt-2 bg-green-500 text-white py-1 px-4 rounded hover:bg-green-600 transition"
+                >
+                  Update Profile
+                </button>
+              </div>
+            )}
+          </div>
         </div>
-        
-        <button
-          onClick={() => navigate('/book-content')}
-          className="mt-4 w-full border-gray-800 border text-gray-800 py-2 rounded hover:text-red-600 hover:border-red-600 transition"
-        >
-          Upload Books
-        </button>
-        
-        <button
-          onClick={() => navigate('/audio')}
-          className="mt-4 w-full border-gray-800 border text-gray-800 py-2 rounded hover:text-red-600 hover:border-red-600 transition"
-        >
-          Upload Audios
-        </button>
-        
-        <button
-          onClick={handleLogout}
-          className="mt-4 w-full bg-red-500 text-white py-2 rounded hover:bg-red-600 transition"
-        >
-          <MdLogout className="inline mr-1" /> Logout
-        </button>
-      </aside>
-
-      <main className="flex-grow p-6  shadow-lg rounded-lg">
-        <h1 className="text-4xl font-bold mb-6">Published Books</h1>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-  <div className="bg-gradient-to-br from-red-400 via-red-500 to-red-600 p-4 rounded-lg text-center shadow-lg relative overflow-hidden">
-    <div className="absolute inset-0 bg-gradient-to-br from-white opacity-25 rounded-lg animate-pulse"></div>
-    <p className="text-4xl font-semibold text-white relative z-10 mb-3">{books.length}</p>
-    <p className="text-2xl text-white font-bold relative z-10">Total Books</p>
-  </div>
-  <div className="bg-gradient-to-br from-blue-300 via-blue-400 to-blue-500 p-4 rounded-lg text-center shadow-lg relative overflow-hidden">
-    <div className="absolute inset-0 bg-gradient-to-br from-white opacity-25 rounded-lg animate-pulse"></div>
-    <p className="text-4xl font-semibold text-white relative z-10 mb-3">{totalReads}</p>
-    <p className="text-2xl text-white font-bold relative z-10">Total Reads</p>
-  </div>
-</div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {books.map((book) => (
-            <div key={book._id} className="border border-gray-300 rounded-lg p-4 hover:shadow-lg transition bg-white">
-              <img src={book.coverImage} alt={book.title} className="w-full h-48 object-cover mb-1 rounded" />
-              <h2 className="text-lg font-bold">{book.title}</h2>
-              <button
-                onClick={() => handleViewBook(book._id)}
-                className="mt-2 w-full text-blue-500 border border-blue-500 py-2 rounded hover:border-blue-600 transition"
-              >
-                View Book
-              </button>
-              <button
-                onClick={() => handleDeleteBook(book._id)}
-                className="mt-2 w-full bg-red-500 text-white py-2 rounded hover:bg-red-600 transition"
-              >
-                Delete Book
-              </button>
-            </div>
-          ))}
+        <div className="flex space-x-4">
+        <button onClick={()=>navigate('/book-content')} type="button" className=" py-2 px-4 flex justify-center items-center border  border-red-600 hover:bg-red-700 focus:ring-red-500 focus:ring-offset-red-200 hover:text-white text-red-700 w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg ">
+    <svg width="20" height="20" fill="currentColor" className="mr-2" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
+        <path d="M1344 1472q0-26-19-45t-45-19-45 19-19 45 19 45 45 19 45-19 19-45zm256 0q0-26-19-45t-45-19-45 19-19 45 19 45 45 19 45-19 19-45zm128-224v320q0 40-28 68t-68 28h-1472q-40 0-68-28t-28-68v-320q0-40 28-68t68-28h427q21 56 70.5 92t110.5 36h256q61 0 110.5-36t70.5-92h427q40 0 68 28t28 68zm-325-648q-17 40-59 40h-256v448q0 26-19 45t-45 19h-256q-26 0-45-19t-19-45v-448h-256q-42 0-59-40-17-39 14-69l448-448q18-19 45-19t45 19l448 448q31 30 14 69z">
+        </path>
+    </svg>
+   <span className='text-nowrap'> Upload Book</span>
+</button>
+<button onClick={()=>navigate('/audio')} type="button" className=" py-2 px-4 flex justify-center items-center border border-blue-600 hover:bg-blue-700 focus:ring-blue-500 focus:ring-offset-blue-200 hover:text-white text-blue-600 w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg ">
+    <svg width="20" height="20" fill="currentColor" className="mr-2" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
+        <path d="M1344 1472q0-26-19-45t-45-19-45 19-19 45 19 45 45 19 45-19 19-45zm256 0q0-26-19-45t-45-19-45 19-19 45 19 45 45 19 45-19 19-45zm128-224v320q0 40-28 68t-68 28h-1472q-40 0-68-28t-28-68v-320q0-40 28-68t68-28h427q21 56 70.5 92t110.5 36h256q61 0 110.5-36t70.5-92h427q40 0 68 28t28 68zm-325-648q-17 40-59 40h-256v448q0 26-19 45t-45 19h-256q-26 0-45-19t-19-45v-448h-256q-42 0-59-40-17-39 14-69l448-448q18-19 45-19t45 19l448 448q31 30 14 69z">
+        </path>
+    </svg>
+   <span className='text-nowrap'> Upload Audio</span>
+</button>
+<button onClick={()=>navigate('/book-content')} type="button" className=" py-2 px-4 flex justify-center items-center  bg-red-600 hover:bg-red-700 focus:ring-red-500 focus:ring-offset-red-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg ">
+  
+  
+            <MdLogout className="mr-1" /> Logout
+          </button>
         </div>
-      </main>
+      </div>
+   
+        <div className="grid grid-cols-2 gap-4 mb-6">
+          <div className="bg-gradient-to-br from-red-400 via-red-500 to-red-600 p-4 rounded-lg text-center shadow-lg text-white">
+            <p className="text-4xl font-semibold">{books.length}</p>
+            <p className="text-lg">Total Books</p>
+          </div>
+          <div className="bg-gradient-to-br from-blue-300 via-blue-400 to-blue-500 p-4 rounded-lg text-center shadow-lg text-white">
+            <p className="text-4xl font-semibold">{totalReads}</p>
+            <p className="text-lg">Total Reads</p>
+          </div>
+        </div>
+
+        <table className="w-full  bg-white   rounded-lg overflow-hidden">
+          <thead className="bg-gray-200">
+            <tr>
+              <th className="p-4 border-b">S/N</th>
+              <th className="p-4 border-b">Book Name</th>
+              <th className="p-4 border-b">Total Reads</th>
+              <th className="p-4 border-b">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {books.map((book, index) => (
+              <tr key={book._id} className="text-center">
+                <td className="p-4 border-b">{index + 1}</td>
+                <td className="p-4 border-b">{book.title}</td>
+                <td className="p-4 border-b">{book.reads}</td>
+                <td className="p-4 border-b space-x-2">
+                  <button
+                    onClick={() => handleViewBook(book._id)}
+                    className="bg-blue-500 text-white py-1 px-4 rounded hover:bg-blue-600 transition"
+                  >
+                    View
+                  </button>
+                  <button
+                    onClick={() => handleDeleteBook(book._id)}
+                    className="bg-red-500 text-white py-1 px-4 rounded hover:bg-red-600 transition"
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

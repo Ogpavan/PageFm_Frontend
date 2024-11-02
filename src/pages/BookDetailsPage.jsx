@@ -46,22 +46,24 @@ const BookDetailsPage = () => {
   // Fetch books when user ID is available
   useEffect(() => {
     if (uid) {
+      console.log("User ID for fetching books:", uid);  // This should log the user ID
       fetchBooks();
     }
   }, [uid]);
-
+  
   const fetchBooks = async () => {
     try {
-      const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/books`, {
+      const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/books/existingbooks`, {
         params: { userId: uid },
       });
       setBooks(response.data);
-      console.log("Books fetched:", response.data);
     } catch (error) {
       console.error('Error fetching books', error.response?.data || error.message);
     }
   };
-
+  
+  
+  
   // Redirect if content is not provided
   if (!content) {
     console.warn("No content found. Redirecting to /book-content");
