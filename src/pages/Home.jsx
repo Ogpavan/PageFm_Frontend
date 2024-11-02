@@ -148,7 +148,7 @@ const Home = () => {
       <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4 mt-5 px-4 sm:px-8 lg:px-16">Books</h2>
       <div className="flex overflow-x-auto space-x-4 px-4 sm:px-8 lg:px-16">
         {filteredBooks.map((book) => (
-          <div key={book._id} className="flex-shrink-0 w-40 sm:w-48 md:w-52">
+          <div key={book._id} className="flex-shrink-0 w-40 sm:w-32 md:w-36">
             <Link to={`/book/${book._id}`} className="text-gray-700">
               <img
                 src={book.coverImage || "https://via.placeholder.com/150"}
@@ -160,13 +160,45 @@ const Home = () => {
                   {book.title.length > 16 ? `${book.title.substring(0, 16)}...` : book.title}
                 </p>
                 <p className="text-xs sm:text-sm text-gray-600 italic">
-                  {book.description.length > 28 ? `${book.description.substring(0, 25)}...` : book.description}
+                  {book.description.length > 25 ? `${book.description.substring(0, 20)}...` : book.description}
                 </p>
                 <p className="text-xs sm:text-sm text-gray-700">
                   {book.reads > 0 ? `Reads: ${book.reads}` : "No Reads"}
                 </p>
               </div>
             </Link>
+          </div>
+        ))}
+      </div>
+
+      <div className="px-4 sm:px-8 lg:px-16 py-5">
+        {Object.keys(booksByPrimaryGenre).map((genre) => (
+          <div key={genre} className="mb-8">
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4">{genre}</h2>
+            <div className="flex overflow-x-auto space-x-4">
+              {booksByPrimaryGenre[genre].map((book) => (
+                <div key={book._id} className="flex-shrink-0 w-40 sm:w-32 md:w-36">
+                  <Link to={`/book/${book._id}`} className="text-gray-700">
+                    <img
+                      src={book.coverImage || "https://via.placeholder.com/150"}
+                      alt={book.title}
+                      className="object-cover rounded w-full h-[200px] sm:h-[270px] transition-transform transform hover:scale-105"
+                    />
+                    <div className="mt-2">
+                      <p className="text-sm sm:text-base font-bold">
+                        {book.title.length > 20 ? `${book.title.substring(0, 16)}...` : book.title}
+                      </p>
+                      <p className="text-xs sm:text-sm text-gray-600 italic">
+                        {book.description.length > 20 ? `${book.description.substring(0, 20)}...` : book.description}
+                      </p>
+                      <p className="text-xs sm:text-sm text-gray-700">
+                        {book.reads > 0 ? `Reads: ${book.reads}` : "No Reads"}
+                      </p>
+                    </div>
+                  </Link>
+                </div>
+              ))}
+            </div>
           </div>
         ))}
       </div>
