@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { getFirestore, doc, getDoc } from 'firebase/firestore';
+import { useParams, useNavigate, Link } from 'react-router-dom';
+import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore';
+import { FaFacebook, FaTwitter, FaWhatsapp, FaInstagram, FaTelegram, FaLinkedin } from 'react-icons/fa';
 
 const WritersProfileViewer = () => {
   const { writerId } = useParams();
@@ -10,17 +11,15 @@ const WritersProfileViewer = () => {
   const [error, setError] = useState('');
   const [profilePic, setProfilePic] = useState('');
   const [writerName, setWriterName] = useState('');
+  const [aboutAuthor, setAboutAuthor] = useState('');
+  const [socialHandles, setSocialHandles] = useState([]);
+  const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     const fetchBooksAndWriter = async () => {
       try {
         const booksResponse = await fetch(`${import.meta.env.VITE_BASE_URL}/api/writers/${writerId}/books`);
-        console.log(`Fetching books from: ${import.meta.env.VITE_BASE_URL}/api/writers/${writerId}/books`);
-
-        if (!booksResponse.ok) {
-          throw new Error('Failed to load books');
-        }
-
+        if (!booksResponse.ok) throw new Error('Failed to load books');
         const booksData = await booksResponse.json();
         setBooks(booksData);
 
@@ -32,9 +31,10 @@ const WritersProfileViewer = () => {
 
           if (writerSnapshot.exists()) {
             const writerData = writerSnapshot.data();
-            console.log('writerData', writerData);
             setWriterName(writerData.name);
             setProfilePic(writerData.profilePic);
+            setAboutAuthor(writerData.aboutAuthor || '');
+            setSocialHandles(writerData.socialHandles || []);
           } else {
             setError('No writer found in Firestore');
           }
@@ -51,6 +51,18 @@ const WritersProfileViewer = () => {
     fetchBooksAndWriter();
   }, [writerId]);
 
+
+
+  const iconMap = {
+    facebook: FaFacebook,
+    twitter: FaTwitter,
+    whatsapp: FaWhatsapp,
+    instagram: FaInstagram,
+    telegram : FaTelegram,
+    linkedin : FaLinkedin
+    // Add more platforms as needed
+  };
+
   const handleBookClick = (bookId) => {
     navigate(`/books/${bookId}`);
   };
@@ -58,56 +70,60 @@ const WritersProfileViewer = () => {
   if (loading) return <div className="text-center text-2xl font-semibold">Loading...</div>;
   if (error) return <div className="text-center text-2xl font-semibold text-red-500">{error}</div>;
 
-  const totalBooks = books.length;
-  const totalReads = books.reduce((acc, book) => acc + book.reads, 0);
-
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 p-8 bg-gray-100 min-h-screen">
-      {/* Left Side - Profile Section */}
-      <aside className="bg-white shadow-md rounded-lg p-8 flex flex-col items-center text-center col-span-1">
-        {profilePic ? (
-          <img src={profilePic} alt="Profile" className="rounded-full h-32 w-32 object-cover mb-4" />
-        ) : (
-          <img
-            src="https://via.placeholder.com/150"
-            alt="Default Profile"
-            className="rounded-full h-32 w-32 object-cover mb-4"
-          />
-        )}
+    <div className="p-8 bg-gray-100 min-h-screen flex flex-col items-center">
+      {/* Profile Section */}
+      <div className="bg-white shadow-md rounded-lg p-8 text-center w-full max-w-2xl mb-8">
+        <img src={profilePic} alt="Profile" className="rounded-full h-32 w-32 object-cover mx-auto mb-4" />
         <h1 className="text-3xl font-bold text-gray-800">{writerName || 'Unknown Writer'}</h1>
-        <p className="text-gray-600 mt-4">Total Books: {totalBooks}</p>
-        <p className="text-gray-600">Total Reads: {totalReads}</p>
-      </aside>
+        <div className="flex justify-center gap-4 mt-4">
+              {socialHandles.map(({ platform, url }, index) => (
+                url && (
+                  <a href={url} target="_blank" rel="noopener noreferrer" key={index}>
+                  {iconMap[platform.toLowerCase()] ? (
+                    React.createElement(iconMap[platform.toLowerCase()], { className: "h-6 w-6 text-blue-500" })
+                  ) : (
+                    <span>Icon not available</span>
+                  )}
+                </a>
+                )
+              ))}
+            </div>
+            <div className='text-gray-700 md:px-10 text-justify'>
+              <h1 className='text-xl font-bold text-gray-800 mt-4 w-full text-left'>About the Writer</h1>
+            <p className="text-gray-600 mt-2">{aboutAuthor || 'No bio available.'}</p>
+            </div>
+          
 
-      {/* Right Side - Books Section */}
-      <main className="col-span-2 flex flex-col items-start bg-white shadow-md p-8 rounded-md">
-        <h2 className="text-3xl font-bold mb-6 text-gray-800">Published Books</h2>
+      {/* Books Section */}
+      <div className="w-full max-w-4xl mt-10 md:px-10">
+        <h2 className="text-xl font-bold mb-6 text-gray-800 text-left">Published Books</h2>
         {books.length === 0 ? (
-          <p className="text-gray-500 text-center">No books published yet.</p>
+          <p className="text-gray-500 ">No books published yet.</p>
         ) : (
-          <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
+          <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {books.map((book) => (
-              <li
-                key={book._id}
-                className="bg-white shadow-lg rounded-lg overflow-hidden cursor-pointer hover:shadow-xl transition-shadow duration-300"
-                onClick={() => handleBookClick(book._id)}
-              >
-                <img
-                  src={book.coverImage}
-                  alt={book.title}
-                  className="h-56 w-full object-cover"
-                />
-                <div className="p-4">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                    {book.title.length > 20 ? `${book.title.substring(0, 20)}...` : book.title}
-                  </h3>
-                  <p className="text-gray-500">Reads: {book.reads}</p>
-                </div>
-              </li>
+                              <Link to={`/book/${book._id}`} className="text-gray-700">
+                              <img
+                                src={book.coverImage || "https://via.placeholder.com/150"}
+                                alt={book.title}
+                                className="object-cover rounded w-full h-[200px] sm:h-[270px] transition-transform transform hover:scale-105"
+                              />
+                              <div className="mt-2">
+                                <p className="text-sm sm:text-base font-bold">
+                                  {book.title.length > 20 ? `${book.title.substring(0, 16)}...` : book.title}
+                                </p>
+                              
+                                <p className="text-xs sm:text-sm text-gray-700">
+                                  {book.reads > 0 ? `Reads: ${book.reads}` : "No Reads"}
+                                </p>
+                              </div>
+                            </Link>
             ))}
           </ul>
         )}
-      </main>
+      </div>
+    </div>
     </div>
   );
 };

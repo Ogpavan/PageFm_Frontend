@@ -4,6 +4,7 @@ import { useBookmarks } from '../context/BookmarkContext';
 import { FaBookmark, FaRegBookmark } from 'react-icons/fa';
 import BookAudioList from '../pages/BookAudioList';
 import axios from 'axios';
+import Loader from '../components/Loader';
 
 const BookDetails = () => {
   const { id } = useParams();
@@ -40,7 +41,7 @@ const BookDetails = () => {
   };
 
   if (loading) {
-    return <div className="text-center text-xl font-semibold">Loading...</div>;
+    return <Loader />;
   }
 
   if (error) {
@@ -52,7 +53,7 @@ const BookDetails = () => {
   }
 
   return (
-    <div className="container mx-auto p-6 bg-white shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] rounded-lg max-w-4xl border border-gray-200">
+    <div className="container mx-auto p-6 bg-white  rounded-lg max-w-4xl border border-gray-200">
       <div className="flex flex-col lg:flex-row gap-6">
         <div className="h-72 w-52 flex justify-center">
           <img

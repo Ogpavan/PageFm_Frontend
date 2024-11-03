@@ -1,18 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { auth, db } from '../pages/firebaseConfig';
 import { doc, getDoc } from 'firebase/firestore';
-import { FaBookmark, FaBars, FaTimes, FaUserCircle, FaHome, FaInfoCircle, FaPowerOff } from 'react-icons/fa'; // Import relevant icons
+import { FaBookmark, FaBars, FaTimes, FaUserCircle } from 'react-icons/fa';
 import Modal from '../components/Modal';
 import SearchBar from './SearchBar';
 import axios from 'axios';
 import { TfiPowerOff } from "react-icons/tfi";
+import { RiDashboard3Fill } from "react-icons/ri";
 
 const Navbar = () => {
   const [user, setUser] = useState(null);
   const [userName, setUserName] = useState('');
-  const [userRole, setUserRole] = useState('');
+  
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [genres, setGenres] = useState(['Genres']);
@@ -20,16 +21,17 @@ const Navbar = () => {
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const dropdownRef = useRef(null);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
         setUser(currentUser);
 
-        const userDoc = await getDoc(doc(db, 'users', currentUser.uid));
+        const userDoc = await getDoc(doc(db, 'writers', currentUser.uid));
         if (userDoc.exists()) {
           const userData = userDoc.data();
-          setUserName(userData.firstName);
+          setUserName(userData.name);
           setUserRole(userData.role);
         } else {
           console.error('No user data found in Firestore.');
@@ -48,7 +50,6 @@ const Navbar = () => {
     const fetchGenres = async () => {
       try {
         const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/books/genres`);
-        console.log('Genres fetched:', response.data);
         setGenres(['All Genres', ...response.data]);
       } catch (error) {
         console.error('Error fetching genres:', error);
@@ -63,6 +64,7 @@ const Navbar = () => {
       await signOut(auth);
       closeLogoutModal();
       navigate('/');
+      setShowProfileDropdown(false);
     } catch (error) {
       console.error('Error logging out:', error);
     }
@@ -72,6 +74,7 @@ const Navbar = () => {
     const genre = e.target.value;
     setSelectedGenre(genre);
     setIsMobileMenuOpen(false);
+    setShowProfileDropdown(false);
     navigate(`/genre/${encodeURIComponent(genre)}`);
   };
 
@@ -85,6 +88,7 @@ const Navbar = () => {
 
   const openLogoutModal = () => {
     setShowLogoutModal(true);
+    setShowProfileDropdown(false);
   };
 
   const closeLogoutModal = () => {
@@ -95,9 +99,22 @@ const Navbar = () => {
     setShowProfileDropdown(!showProfileDropdown);
   };
 
-  const closeProfileDropdown = () => {
-    setShowProfileDropdown(false);
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setShowProfileDropdown(false);
+    }
   };
+
+  useEffect(() => {
+    if (showProfileDropdown) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showProfileDropdown]);
 
   return (
     <nav className="p-5 flex flex-col md:flex-row justify-between md:px-10 items-center md:mx-auto  max-w-[1450px]">
@@ -125,22 +142,19 @@ const Navbar = () => {
           to="/"
           onClick={closeMobileMenu}
           className={`text-md mulish-regular ${
-            location.pathname === '/'
-              ? 'border-b-2 border-gray-700'
-              : ''
+            location.pathname === '/' ? 'border-b-2 border-gray-700' : ''
           } md:ml-6`}
-        > Home
+        >
+          Home
         </Link>
         <Link
           to="/about"
           onClick={closeMobileMenu}
           className={`text-md mulish-regular ${
-            location.pathname === '/about'
-              ? 'border-b-2 border-gray-700'
-              : ''
+            location.pathname === '/about' ? 'border-b-2 border-gray-700' : ''
           } md:ml-6`}
         >
-         About
+          About
         </Link>
 
         {/* Genres dropdown */}
@@ -160,16 +174,14 @@ const Navbar = () => {
           to="/career"
           onClick={closeMobileMenu}
           className={`text-md mulish-regular ${
-            location.pathname === '/career'
-              ? 'border-b-2 border-gray-700'
-              : ''
+            location.pathname === '/career' ? 'border-b-2 border-gray-700' : ''
           } md:ml-6`}
         >
           Career
         </Link>
 
         {user ? (
-          <div className="relative">
+          <div className="relative" ref={dropdownRef}>
             <button
               onClick={toggleProfileDropdown}
               className="flex items-center text-md mulish-regular md:ml-0 focus:outline-none"
@@ -181,32 +193,41 @@ const Navbar = () => {
               <div className="absolute right-0 mt-2 w-48 bg-white rounded shadow-lg z-10">
                 <Link
                   to="/profile"
-                  onClick={closeMobileMenu}
+                  onClick={() => {
+                    closeMobileMenu();
+                    setShowProfileDropdown(false);
+                  }}
                   className="block px-4 py-2 text-md text-gray-700 hover:bg-gray-100"
                 >
                   <FaUserCircle className="inline-block mr-1" /> Profile
                 </Link>
-                {userRole === 'RJ' && (
-                  <Link
-                    to="/audio"
-                    onClick={closeMobileMenu}
-                    className="block px-4 py-2 text-md text-gray-700 hover:bg-gray-100"
-                  >
-                    <FaBookmark className="inline-block mr-1" /> Audio
-                  </Link>
-                )}
+                <Link to={'/dashboard'}
+                  onClick={() => {
+                    closeMobileMenu();
+                    setShowProfileDropdown(false);
+                  }}
+                  className="block px-4 py-2 text-md text-gray-700 hover:bg-gray-100"
+                >
+                  <RiDashboard3Fill className="inline-block mr-1" /> Dashboard
+
+                
+                
+                </Link>
                 <Link
                   to="/bookmarks"
-                  onClick={closeMobileMenu}
+                  onClick={() => {
+                    closeMobileMenu();
+                    setShowProfileDropdown(false);
+                  }}
                   className="block px-4 py-2 text-md text-gray-700 hover:bg-gray-100"
                 >
                   <FaBookmark className="inline-block mr-1" /> Bookmarks
                 </Link>
                 <button
                   onClick={openLogoutModal}
-                  className=" text-red-500 block w-full text-left px-4 py-2 text-md  hover:bg-gray-100"
+                  className="text-red-500 block w-full text-left px-4 py-2 text-md hover:bg-gray-100"
                 >
-                <TfiPowerOff  className="inline-block mr-1" />  Logout
+                  <TfiPowerOff className="inline-block mr-1" /> Logout
                 </button>
               </div>
             )}
@@ -217,9 +238,7 @@ const Navbar = () => {
               to="/login"
               onClick={closeMobileMenu}
               className={`text-md mulish-regular ${
-                location.pathname === '/login'
-                  ? 'border-b-2 border-gray-700'
-                  : ''
+                location.pathname === '/login' ? 'border-b-2 border-gray-700' : ''
               } md:ml-6`}
             >
               Login
@@ -228,9 +247,7 @@ const Navbar = () => {
               to="/signup"
               onClick={closeMobileMenu}
               className={`text-md mulish-regular ${
-                location.pathname === '/signup'
-                  ? 'border-b-2 border-gray-700'
-                  : ''
+                location.pathname === '/signup' ? 'border-b-2 border-gray-700' : ''
               } md:ml-6`}
             >
               Signup
@@ -248,6 +265,6 @@ const Navbar = () => {
       />
     </nav>
   );
-};
+}
 
 export default Navbar;

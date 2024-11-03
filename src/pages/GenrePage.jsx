@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
+import Loader from '../components/Loader';
 
 const GenrePage = () => {
   const { genre } = useParams();
@@ -32,7 +33,7 @@ const GenrePage = () => {
     }
   }, [books, genre]);
 
-  if (loading) return <div className="text-center text-gray-600 py-8">Loading...</div>;
+  if (loading) return <Loader />;
   if (error) return <div className="text-center text-red-500 py-8">{error}</div>;
 
   return (

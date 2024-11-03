@@ -27,6 +27,10 @@ import BookContentPage from './pages/BookContentPage.jsx';
 import BookDetailsPage from './pages/BookDetailsPage.jsx';
 import EpisodeDetails from './components/EpisodeDetails.jsx';
 import AdminPage from './components/Admin.jsx';
+import Creators from './pages/Creators.jsx';
+import EditEpisode from './components/EditEpisode.jsx';
+import EditingEpisodes from './components/EditingEpisodes.jsx';
+import Dashboard from './components/Dashboard.jsx';
 
 const App = () => {
   const [user, setUser] = useState(null); // Store authenticated user
@@ -76,6 +80,13 @@ const App = () => {
           
           <Route path="/audio" element={<AudioUpload />} />
           <Route path="/wp-admin" element={<AdminPage />} />
+
+          <Route path="/creators" element={<Creators />} />
+
+        <Route path="/edit-episodes/:bookId" element={<EditEpisode />} />
+
+        <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/books/:bookId/episodes/:episodeId/edit" element={<EditingEpisodes />} />
 
 
 

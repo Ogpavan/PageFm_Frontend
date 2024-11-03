@@ -12,7 +12,7 @@ const Bookmarks = () => {
   }
 
   return (
-    <div className="p-4">
+    <div className="p-4 max-w-5xl mx-auto">
       <h2 className="text-3xl font-bold mb-4">Bookmarked Books</h2>
       <ul className="space-y-4">
         {bookmarks.length === 0 ? (
@@ -26,7 +26,7 @@ const Bookmarks = () => {
                 className="w-24 h-36 object-cover"
               />
               <div className="flex-1">
-                <Link to={`/books/${book._id}`} className="text-xl text-blue-600 hover:underline">
+                <Link to={`/books/${book._id}`} className="text-2xl text-blue-600 hover:underline">
                   {book.title}
                 </Link>
                 <p className="text-gray-700">{book.description || 'No description available.'}</p>

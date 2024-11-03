@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import Loader from './Loader';
 
 const EpisodeDetails = ({ setShowNavbar, setShowFooter }) => {
   const { episodeId, bookId } = useParams();
@@ -35,7 +36,7 @@ const EpisodeDetails = ({ setShowNavbar, setShowFooter }) => {
   }, [episodeId, bookId]);
 
   if (loading) {
-    return <div className="text-center text-xl font-semibold">Loading episode...</div>;
+    return <Loader />;
   }
 
   if (error) {

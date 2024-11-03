@@ -10,7 +10,7 @@ const Footer = () => {
       <div className="container mx-auto px-4">
         <div className="flex flex-wrap justify-between w-full">
           <div className="w-full sm:w-1/4 mb-6 sm:mb-0">
-            <h2 className="text-lg font-bold mb-2 cinzel-decorative-bold">Bookify</h2>
+            <h2 className="text-lg font-bold mb-2 cinzel-decorative-bold">PageFM</h2>
             <p className="text-sm">Explore a world of books and more. Join us in discovering and sharing great reads.</p>
           </div>
           <div className="w-full sm:w-1/4 mb-6 sm:mb-0">
@@ -19,13 +19,14 @@ const Footer = () => {
               <li><Link to="/" className="hover:underline">Home</Link></li>
               <li><Link to="/about" className="hover:underline">About</Link></li>
               <li><Link to="/login" className="hover:underline">Login</Link></li>
+              <li><Link to="/signup" className="hover:underline">Register</Link></li>
               <li><Link to="/bookmarks" className="hover:underline">Bookmarks</Link></li>
             </ul>
           </div>
           <div className="w-full sm:w-1/4 mb-6 sm:mb-0">
             <h3 className="text-md font-semibold mb-2 cinzel-decorative-bold">Contact Us</h3>
-            <p className="text-sm">Email: <a href="mailto:support@bookify.com" className="hover:underline">support@bookify.com</a></p>
-            <p className="text-sm">Phone: <a href="tel:+1234567890" className="hover:underline">+1 (123) 456-7890</a></p>
+            <p className="text-sm">Email: <a href="mailto:pagefmofficial@gmail.com" className="hover:underline">pagefmofficial@gmail.com</a></p>
+            <p className="text-sm">Phone: <a href="tel:+91 73592 44428" className="hover:underline">+91 73592 44428</a></p>
           </div>
           <div className="w-full sm:w-1/4">
             <h3 className="text-md font-semibold mb-2 cinzel-decorative-bold">Follow Us</h3>

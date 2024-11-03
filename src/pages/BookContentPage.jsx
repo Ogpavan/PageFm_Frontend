@@ -17,8 +17,8 @@ const BookContentPage = () => {
   };
 
   return (
-    <div className="p-8 lg:flex flex-col lg:flex-row justify-center items-start  min-h-screen">
-      <div className="flex flex-col w-full lg:w-3/4 p-6 bg-white rounded-lg ">
+    <div className="md:p-8 lg:flex flex-col lg:flex-row justify-center items-start  min-h-screen">
+      <div className="flex flex-col w-full lg:w-3/4 md:p-6 p-2 bg-white rounded-lg ">
       
         <div>
          

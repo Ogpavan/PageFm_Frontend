@@ -94,10 +94,10 @@ const Home = () => {
       </Modal>
 
       {/* Carousel with External Content */}
-      <div className="px-4 sm:px-8 lg:px-16 py-5">
+      <div className="px-4 sm:px-8 lg:px-16 py-5  ">
         <Slider {...carouselSettings}>
           {carouselItems.map((item, index) => (
-            <div key={index} className="relative w-full h-[300px] rounded overflow-hidden">
+            <div key={index} className="shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] relative w-full h-[300px] rounded overflow-hidden ">
               <img
                 src={item.image}
                 alt="Carousel Item"
@@ -118,7 +118,7 @@ const Home = () => {
         <button
           onClick={() => handleGenreFilter("All")}
           className={`px-4 py-2 text-sm sm:text-base rounded-full border-[1px] border-gray-400 ${
-            selectedGenre === "All" ? "bg-black text-white" : "hover:bg-black hover:text-white"
+            selectedGenre === "All" ? "bg-black text-white" : "hover:bg-black hover:text-white "
           }`}
         >
           All

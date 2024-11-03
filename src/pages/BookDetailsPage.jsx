@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { auth } from '../pages/firebaseConfig';
 import { onAuthStateChanged } from 'firebase/auth';
+import { FcPlus } from "react-icons/fc";
 
 const BookDetailsPage = () => {
   const [uid, setUid] = useState(null);
@@ -175,7 +176,7 @@ const BookDetailsPage = () => {
   };
 
   return (
-    <div className="p-8 lg:flex flex-col lg:flex-row justify-center items-start bg-gray-100 min-h-screen">
+    <div className="md:p-8 lg:flex flex-col lg:flex-row justify-center items-start bg-gray-100 min-h-screen">
       <div className="flex flex-col w-full lg:w-3/4 p-6 bg-white rounded-lg shadow-md border border-gray-200">
         <form onSubmit={(e) => { e.preventDefault(); handleSubmit(); }} className="space-y-6">
           <div className="flex flex-col lg:flex-row justify-between gap-x-6">
@@ -276,9 +277,11 @@ const BookDetailsPage = () => {
       </div>
 
       <div className="lg:w-1/4 lg:ml-6 mt-6 lg:mt-0">
-        <h2 className="text-lg font-semibold mb-4">Existing Books</h2>
+        <h2 className="text-lg font-semibold mb-4">Add Episodes </h2>
         <ul className="bg-white rounded-lg shadow-md border border-gray-200">
           {books.map((book) => (
+            <div className=' '>
+              
             <li
               key={book._id}
               className="p-4 border-b cursor-pointer hover:bg-gray-100"
@@ -295,8 +298,13 @@ const BookDetailsPage = () => {
                 setEpisodeTitle(''); // Clear episode title
               }}
             >
-              {book.title}
+              <div className='w-full flex justify-between items-center'>
+              {book.title} <span><FcPlus /></span>
+              </div>
+ 
+
             </li>
+            </div>
           ))}
         </ul>
       </div>
