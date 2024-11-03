@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { getAuth, onAuthStateChanged, updateProfile, signOut } from 'firebase/auth';
+import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
 import { initializeApp } from 'firebase/app';
 import { useNavigate, useParams } from 'react-router-dom';
 import firebaseConfig from '../pages/firebaseConfig';
-import { MdOutlineEdit, MdLogout, MdAdd } from "react-icons/md";
+import { MdOutlineEdit, MdAdd } from "react-icons/md";
 import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 
@@ -124,19 +124,19 @@ const WriterProfile = () => {
   };
 
   return (
-    <div className="px-6 py-8 md:px-10 md:py-12 bg-gray-50 min-h-screen">
-      <div className="max-w-3xl flex justify-center mx-auto bg-white shadow-lg rounded-lg p-8 space-y-6">
+    <div className="px-2 py-8 md:px-10 md:py-12 bg-gray-50 min-h-screen">
+      <div className="md:max-w-3xl flex justify-center mx-auto bg-white shadow-lg rounded-lg md:p-8 space-y-6">
         <div className="flex flex-col md:flex-row items-center md:items-start justify-between">
-          <div className="flex items-center md:items-start md:mr-6">
+          <div className="flex flex-col items-center md:items-start md:mr-6">
             {profilePic ? (
-              <img src={profilePic} alt="Profile" className="rounded-full h-32 w-32 object-cover border-4 border-indigo-500" />
+              <img src={profilePic} alt="Profile" className="rounded-full h-32 w-32 object-cover border-4 border-indigo-500 mb-2" />
             ) : (
               <div className="rounded-full h-32 w-32 bg-gray-200 border-4 border-indigo-500"></div>
             )}
-            <div className="ml-6 mt-4 md:mt-0 text-center md:text-left">
-              <h2 className="text-4xl font-bold text-gray-800 flex items-center">
+            <div className=" px-4 mt-4 md:mt-0 text-center md:text-left">
+              <h2 className="text-4xl font-bold text-gray-800 flex items-center justify-between">
                 {writerName}
-                <MdOutlineEdit  
+                <MdOutlineEdit
                   onClick={() => setIsEditing(!isEditing)}
                   className="inline cursor-pointer ml-2 text-indigo-500 hover:text-indigo-700 transition duration-150"
                 />
@@ -156,28 +156,29 @@ const WriterProfile = () => {
                     placeholder="About Author"
                     className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   />
-                  
-                  {socialHandles.map((handle, index) => (
-                    <div key={index} className="flex space-x-2">
-                      <input
-                        type="text"
-                        value={handle.platform}
-                        onChange={(e) => handleSocialHandleChange(index, 'platform', e.target.value)}
-                        placeholder="Platform (e.g., Twitter)"
-                        className="w-1/4 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                      />
-                      <input
-                        type="text"
-                        value={handle.url}
-                        onChange={(e) => handleSocialHandleChange(index, 'url', e.target.value)}
-                        placeholder="URL"
-                        className="flex-grow p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                      />
-                      <button onClick={() => removeSocialHandle(index)} className="text-red-500 hover:text-red-700">
-                        Remove
-                      </button>
-                    </div>
-                  ))}
+                  <div className="flex flex-col space-y-2">
+                    {socialHandles.map((handle, index) => (
+                      <div key={index} className="flex md:space-x-2 flex-wrap">
+                        <input
+                          type="text"
+                          value={handle.platform}
+                          onChange={(e) => handleSocialHandleChange(index, 'platform', e.target.value)}
+                          placeholder="Platform (e.g., Twitter)"
+                          className="md:w-1/3 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        />
+                        <input
+                          type="text"
+                          value={handle.url}
+                          onChange={(e) => handleSocialHandleChange(index, 'url', e.target.value)}
+                          placeholder="URL"
+                          className="flex-grow p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        />
+                        <button onClick={() => removeSocialHandle(index)} className="text-red-500 hover:text-red-700 border-red-500 border px-2 py-1 rounded-full mt-2 mb-4 md:mt-0 md:mb-0">
+                          Remove
+                        </button>
+                      </div>
+                    ))}
+                  </div>
                   <button onClick={addSocialHandle} className="flex items-center mt-2 px-4 py-2 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition duration-150">
                     <MdAdd className="mr-2" /> Add Social Link
                   </button>
@@ -193,8 +194,8 @@ const WriterProfile = () => {
                         <span className='font-bold text-green-500'>{handle.platform} </span> {handle.url || ' '}
                       </a>
                     ))}
-                    <h1 className='text-gray-700 font-bold mt-5 text-xl'>About  </h1>
-                    <p className="mb-2 max-w-md ">{aboutAuthor}</p>
+                    <h1 className='text-gray-700 font-bold mt-5 text-xl'>About</h1>
+                    <p className="mb-2 md:max-w-md text-justify">{aboutAuthor}</p>
                   </div>
                 </div>
               )}

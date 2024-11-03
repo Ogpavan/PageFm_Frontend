@@ -71,9 +71,9 @@ const WritersProfileViewer = () => {
   if (error) return <div className="text-center text-2xl font-semibold text-red-500">{error}</div>;
 
   return (
-    <div className="p-8 bg-gray-100 min-h-screen flex flex-col items-center">
+    <div className="md:p-8 md:bg-gray-100 min-h-screen flex flex-col items-center">
       {/* Profile Section */}
-      <div className="bg-white shadow-md rounded-lg p-8 text-center w-full max-w-2xl mb-8">
+      <div className="bg-white md:shadow-md rounded-lg p-8 text-center w-full max-w-2xl mb-8">
         <img src={profilePic} alt="Profile" className="rounded-full h-32 w-32 object-cover mx-auto mb-4" />
         <h1 className="text-3xl font-bold text-gray-800">{writerName || 'Unknown Writer'}</h1>
         <div className="flex justify-center gap-4 mt-4">
