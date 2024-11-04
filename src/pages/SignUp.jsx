@@ -87,8 +87,8 @@ const SignUp = () => {
   return (
     <div className="md:mt-10 flex flex-col items-center justify-center w-full ">
       <form onSubmit={handleSignUp} className="flex flex-col items-center justify-center border px-6 py-12 bg-white shadow-lg ">
-        <h1 className="text-xl font-bold mb-4 w-full cinzel-decorative-bold">Bookify</h1>
-        <p className="w-full text-3xl mulish-bold">Hi, Welcome to Bookify</p>
+        <h1 className="text-xl font-bold mb-4 w-full cinzel-decorative-bold">PageFM</h1>
+        <p className="w-full text-3xl mulish-bold">Hi, Welcome to PageFm</p>
         <p className="mb-4 w-full text-gray-500 md:text-sm text-xs mulish-light">
           Create an account and start enjoying Bookify
         </p>

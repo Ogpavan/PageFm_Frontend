@@ -99,7 +99,7 @@ const Login = () => {
   return (
     <div className="md:mt-10 flex flex-col items-center justify-center w-full">
       <form onSubmit={handleLogin} className="flex flex-col items-center justify-center border px-6 py-12 bg-white shadow-lg ">
-        <h1 className="text-xl font-bold mb-4 w-full cinzel-decorative-bold">Bookify</h1>
+        <h1 className="text-xl font-bold mb-4 w-full cinzel-decorative-bold">PageFM</h1>
         <p className="w-full text-3xl mulish-bold">Hi, Welcome Back</p>
         <p className="mb-4 w-full text-gray-500 text-sm mulish-light">
           Login to your account to continue
