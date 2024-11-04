@@ -142,7 +142,7 @@ const Navbar = () => {
           to="/"
           onClick={closeMobileMenu}
           className={`text-md mulish-regular ${
-            location.pathname === '/' ? 'border-b-2 border-gray-700' : ''
+            location.pathname === '/' ? 'md:border-b-2 md:border-gray-700' : ''
           } md:ml-6`}
         >
           Home
@@ -151,7 +151,7 @@ const Navbar = () => {
           to="/about"
           onClick={closeMobileMenu}
           className={`text-md mulish-regular ${
-            location.pathname === '/about' ? 'border-b-2 border-gray-700' : ''
+            location.pathname === '/about' ? 'md:border-b-2 border-gray-700' : ''
           } md:ml-6`}
         >
           About
@@ -174,7 +174,7 @@ const Navbar = () => {
           to="/career"
           onClick={closeMobileMenu}
           className={`text-md mulish-regular ${
-            location.pathname === '/career' ? 'border-b-2 border-gray-700' : ''
+            location.pathname === '/career' ? 'md:border-b-2 border-gray-700' : ''
           } md:ml-6`}
         >
           Career
@@ -240,7 +240,7 @@ const Navbar = () => {
               className={`text-md mulish-regular ${
                 location.pathname === '/login' ? 'border-b-2 border-gray-700' : ''
               } md:ml-6`}
-            >
+            > 
               Login
             </Link>
             <Link
