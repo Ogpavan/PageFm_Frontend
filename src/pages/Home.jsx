@@ -22,7 +22,7 @@ const Home = () => {
     },
     {
       image: "https://images.pexels.com/photos/1029141/pexels-photo-1029141.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-      text: " READ WRITE LISTEN ",
+      text: "READ WRITE LISTEN",
     },
     {
       image: "https://images.pexels.com/photos/129492/pexels-photo-129492.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
@@ -67,16 +67,14 @@ const Home = () => {
       ? mostPopular
       : booksByPrimaryGenre[selectedGenre] || [];
 
-  if (loading) return <Loader />;
-
   const carouselSettings = {
     dots: true,
     infinite: true,
-    speed: 500,
+    speed: 400,
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 4000,
+    autoplaySpeed: 3000, // Faster speed for carousel autoplay
   };
 
   return (
@@ -89,6 +87,7 @@ const Home = () => {
         <p>{error}</p>
       </Modal>
 
+      {/* Carousel Section */}
       <div className="md:px-4 px-2 sm:px-8 lg:px-16 py-5">
         <Slider {...carouselSettings}>
           {carouselItems.map((item, index) => (
@@ -108,6 +107,7 @@ const Home = () => {
         </Slider>
       </div>
 
+      {/* Genre Filter Section */}
       <div className="flex space-x-2 mt-6 overflow-hidden overflow-x-auto px-4 sm:px-8 lg:px-16">
         <button
           onClick={() => handleGenreFilter("All")}
@@ -130,33 +130,39 @@ const Home = () => {
         ))}
       </div>
 
+      {/* Books Section */}
       <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4 mt-5 px-4 sm:px-8 lg:px-16">Books</h2>
-      <div className="flex overflow-x-auto space-x-4 px-4 sm:px-8 lg:px-16">
-      {filteredBooks.map((book) => (
-  <div key={book._id} className="flex-shrink-0 w-40 sm:w-32 md:w-36">
-    <Link to={`/book/${book.book}`} className="text-gray-700"> {/* Change here */}
-      <img
-        src={book.coverImage || "https://via.placeholder.com/150"}
-        alt={book.title}
-        className="object-cover rounded w-full h-[200px] sm:h-[270px] transition-transform transform hover:scale-105"
-      />
-      <div className="mt-2">
-        <p className="text-sm sm:text-base font-bold">
-          {book.name.length > 16 ? `${book.name.substring(0, 16)}...` : book.name}
-        </p>
-        <p className="text-xs sm:text-sm text-gray-600 italic">
-          {book.description.length > 25 ? `${book.description.substring(0, 20)}...` : book.description}
-        </p>
-        <p className="text-xs sm:text-sm text-gray-700">
-          {book.readsCount > 0 ? `Reads: ${book.readsCount}` : "No Reads"}
-        </p>
-      </div>
-    </Link>
-  </div>
-))}
+      {loading ? (
+        <Loader />
+      ) : (
+        <div className="flex overflow-x-auto space-x-4 px-4 sm:px-8 lg:px-16">
+          {filteredBooks.map((book) => (
+            <div key={book._id} className="flex-shrink-0 w-40 sm:w-32 md:w-36">
+              <Link to={`/book/${book.book}`} className="text-gray-700">
+                <img
+                  src={book.coverImage || "https://via.placeholder.com/150"}
+                  alt={book.title}
+                  loading="lazy"
+                  className="object-cover rounded w-full h-[200px] sm:h-[270px] transition-transform transform hover:scale-105"
+                />
+                <div className="mt-2">
+                  <p className="text-sm sm:text-base font-bold">
+                    {book.name.length > 16 ? `${book.name.substring(0, 16)}...` : book.name}
+                  </p>
+                  <p className="text-xs sm:text-sm text-gray-600 italic">
+                    {book.description.length > 25 ? `${book.description.substring(0, 20)}...` : book.description}
+                  </p>
+                  <p className="text-xs sm:text-sm text-gray-700">
+                    {book.readsCount > 0 ? `Reads: ${book.readsCount}` : "No Reads"}
+                  </p>
+                </div>
+              </Link>
+            </div>
+          ))}
+        </div>
+      )}
 
-      </div>
-
+      {/* Books by Genre Section */}
       <div className="px-4 sm:px-8 lg:px-16 py-5">
         {Object.keys(booksByPrimaryGenre).map((genre) => (
           <div key={genre} className="mb-8">
@@ -164,7 +170,7 @@ const Home = () => {
             <div className="flex overflow-x-auto space-x-4">
               {booksByPrimaryGenre[genre].map((book) => (
                 <div key={book._id} className="flex-shrink-0 w-40 sm:w-32 md:w-36">
-                   <Link to={`/book/${book.book}`} className="text-gray-700">
+                  <Link to={`/book/${book.book}`} className="text-gray-700">
                     <img
                       src={book.coverImage || "https://via.placeholder.com/150"}
                       alt={book.title}

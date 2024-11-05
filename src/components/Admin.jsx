@@ -6,21 +6,36 @@ const AdminPage = () => {
   const [formData, setFormData] = useState({ title: '', description: '', applicationLink: '' });
   const [careers, setCareers] = useState([]);
   const [error, setError] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [inputPassword, setInputPassword] = useState('');
 
   const handleInputChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
+  const adminPassword = import.meta.env.VITE_ADMIN_PASSWORD;
+
+  // Handle password submission
+  const handleLogin = () => {
+    if (inputPassword === adminPassword) {
+      setIsAuthenticated(true);
+    } else {
+      setError('Incorrect password');
+    }
+  };
+
   // Fetch all careers
   useEffect(() => {
-    const fetchCareers = async () => {
-      try {
-        const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/careers`);
-        setCareers(response.data);
-      } catch (error) {
-        console.error('Error fetching careers:', error);
-      }
-    };
-    fetchCareers();
-  }, []);
+    if (isAuthenticated) {
+      const fetchCareers = async () => {
+        try {
+          const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/careers`);
+          setCareers(response.data);
+        } catch (error) {
+          console.error('Error fetching careers:', error);
+        }
+      };
+      fetchCareers();
+    }
+  }, [isAuthenticated]);
 
   // Handle new career submission
   const handleSubmit = async (e) => {
@@ -51,87 +66,116 @@ const AdminPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center py-12 px-6 lg:px-8 bg-gray-50">
-      <div className="w-full max-w-lg bg-white shadow-lg rounded-lg p-8 mb-10">
-        <h1 className="text-2xl font-semibold text-gray-800 mb-6 text-center">Admin - Post a New Career</h1>
-        {error && <p className="text-red-500 mb-4">{error}</p>}
-        <form onSubmit={handleSubmit} className="space-y-6">
+    <div className="min-h-screen flex flex-col items-center py-12 px-6 lg:px-10  ">
+      {!isAuthenticated ? (
+        <div className="w-full max-w-sm  rounded-l g p-8">
+
+          <h1 className="text-2xl font-semibold text-gray-800 mb-6 text-center">Admin Login</h1>
+          {error && <p className="text-red-500 mb-4">{error}</p>}
           <div>
-            <label className="block text-gray-700 font-medium mb-1" htmlFor="title">Job Title</label>
+             
             <input
-              type="text"
-              name="title"
-              id="title"
-              placeholder="Job Title"
-              value={formData.title}
-              onChange={handleInputChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-              required
-            />
-          </div>
-          <div>
-            <label className="block text-gray-700 font-medium mb-1" htmlFor="description">Job Description</label>
-            <textarea
-              name="description"
-              id="description"
-              placeholder="Job Description"
-              value={formData.description}
-              onChange={handleInputChange}
-              className="w-full h-32 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-              required
-            />
-          </div>
-          <div>
-            <label className="block text-gray-700 font-medium mb-1" htmlFor="applicationLink">Application Link</label>
-            <input
-              type="url"
-              name="applicationLink"
-              id="applicationLink"
-              placeholder="https://example.com/apply"
-              value={formData.applicationLink}
-              onChange={handleInputChange}
+              type="password"
+              name="password"
+              id="password"
+              placeholder="Enter admin password"
+              value={inputPassword}
+              onChange={(e) => setInputPassword(e.target.value)}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
               required
             />
           </div>
           <button
-            type="submit"
-            className="w-full py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition duration-200"
+            onClick={handleLogin}
+            className="w-full py-2 mt-4 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition duration-200"
           >
-            Post Job
+            Sign In
           </button>
-        </form>
-      </div>
+        </div>
+      ) : (
+        <>
+          <div className="w-full max-w-lg bg-white shadow-lg rounded-lg p-8 mb-10">
+            <h1 className="text-2xl font-semibold text-gray-800 mb-6 text-center">Admin - Post a New Career</h1>
+            {error && <p className="text-red-500 mb-4">{error}</p>}
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div>
+                <label className="block text-gray-700 font-medium mb-1" htmlFor="title">Job Title</label>
+                <input
+                  type="text"
+                  name="title"
+                  id="title"
+                  placeholder="Job Title"
+                  value={formData.title}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-gray-700 font-medium mb-1" htmlFor="description">Job Description</label>
+                <textarea
+                  name="description"
+                  id="description"
+                  placeholder="Job Description"
+                  value={formData.description}
+                  onChange={handleInputChange}
+                  className="w-full h-32 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-gray-700 font-medium mb-1" htmlFor="applicationLink">Application Link</label>
+                <input
+                  type="url"
+                  name="applicationLink"
+                  id="applicationLink"
+                  placeholder="https://example.com/apply"
+                  value={formData.applicationLink}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  required
+                />
+              </div>
+              <button
+                type="submit"
+                className="w-full py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition duration-200"
+              >
+                Post Job
+              </button>
+            </form>
+          </div>
 
-      <div className="w-full max-w-2xl bg-white shadow-lg rounded-lg p-8">
-        <h2 className="text-2xl font-semibold text-gray-800 mb-4">Career Listings</h2>
-        {careers.length > 0 ? (
-          <ul className="space-y-4">
-            {careers.map((career) => (
-              <li key={career._id} className="border border-gray-300 rounded-lg p-4">
-                <h3 className="text-lg font-semibold text-gray-900">{career.title}</h3>
-                <p className="text-gray-700">{career.description}</p>
-                <a 
-                  href={career.applicationLink} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-blue-600 hover:underline"
-                >
-                  Application Link
-                </a>
-                <button
-                  onClick={() => handleDelete(career._id)}
-                  className="mt-2 text-red-600 hover:text-red-800 font-medium"
-                >
-                  Delete
-                </button>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p className="text-gray-600">No careers available.</p>
-        )}
-      </div>
+          <div className="w-full max-w-2xl bg-white shadow-lg rounded-lg p-8">
+            <h2 className="text-2xl font-semibold text-gray-800 mb-4">Career Listings</h2>
+            {careers.length > 0 ? (
+              <ul className="space-y-4">
+                {careers.map((career) => (
+                  <li key={career._id} className="border border-gray-300 rounded-lg p-4">
+                    <h3 className="text-lg font-semibold text-gray-900">{career.title}</h3>
+                    <p className="text-gray-700">{career.description}</p>
+                    <a 
+                      href={career.applicationLink} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-blue-600 hover:underline"
+                    >
+                      Application Link
+                    </a>
+                    <button
+                      onClick={() => handleDelete(career._id)}
+                      className="mt-2 text-red-600 hover:text-red-800 font-medium"
+                    >
+                      Delete
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-gray-600">No careers available.</p>
+            )}
+          </div>
+        </>
+      )}
     </div>
   );
 };
