@@ -20,6 +20,7 @@ const BookDetailsPage = () => {
   const [books, setBooks] = useState([]); // State for existing books
   const [selectedBookId, setSelectedBookId] = useState(''); // State for selected book
   const [episodeTitle, setEpisodeTitle] = useState(''); // State for episode title
+  const [displayedGenres, setDisplayedGenres] = useState([]); // State for dynamically updating genres list
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
   const location = useLocation();
@@ -41,7 +42,9 @@ const BookDetailsPage = () => {
     'Urban Fantasy', 'Paranormal', 'Military', 'Short Stories'
 ];
 
-
+useEffect(() => {
+  setDisplayedGenres(predefinedGenres.slice(0, 10)); // Set initial 10 genres
+}, []);
   // Check authentication state and set user ID
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -103,7 +106,6 @@ const BookDetailsPage = () => {
       alert('Image upload failed. Please try again.');
     }
   };
-
   const handleGenreToggle = (genre) => {
     setBookDetails((prev) => ({
       ...prev,
@@ -119,8 +121,8 @@ const BookDetailsPage = () => {
         ...prev,
         genres: [...prev.genres, customGenre],
       }));
+      setDisplayedGenres((prev) => [...prev, customGenre]); // Add custom genre to displayed genres
       setCustomGenre('');
-      console.log("Custom genre added:", customGenre);
     }
   };
 
@@ -239,20 +241,20 @@ const BookDetailsPage = () => {
                     onChange={(e) => setBookDetails({ ...bookDetails, description: e.target.value })}
                     className="border p-3 rounded-md w-full"
                   />
-                  <select
+                 <select
                     value={bookDetails.primaryGenre}
                     onChange={(e) => setBookDetails({ ...bookDetails, primaryGenre: e.target.value })}
                     className="border p-3 rounded-md w-full"
                   >
                     <option value="">Select Primary Genre</option>
-                    {predefinedGenres.map((genre) => (
+                    {displayedGenres.map((genre) => (
                       <option key={genre} value={genre}>{genre}</option>
                     ))}
                   </select>
 
                   <div>
                     <label className="block font-semibold">Select Genres</label>
-                    {predefinedGenres.map((genre) => (
+                    {displayedGenres.map((genre) => (
                       <div key={genre} className="flex items-center mb-2">
                         <input
                           type="checkbox"
@@ -287,6 +289,7 @@ const BookDetailsPage = () => {
           </button>
         </form>
       </div>
+    
 
       <div className="lg:w-1/4 lg:ml-6 mt-6 lg:mt-0">
         <h2 className="text-lg font-semibold mb-4">Add Episodes </h2>
