@@ -146,13 +146,13 @@ const Home = () => {
                   className="object-cover rounded w-full h-[200px] sm:h-[270px] transition-transform transform hover:scale-105"
                 />
                 <div className="mt-2">
-                  <p className="text-sm sm:text-base font-bold">
-                    {book.name.length > 16 ? `${book.name.substring(0, 16)}...` : book.name}
+                  <p className="text-xs  font-bold">
+                    {book.name.length > 20 ? `${book.name.substring(0, 20)}...` : book.name}
                   </p>
-                  <p className="text-xs sm:text-sm text-gray-600 italic">
-                    {book.description.length > 25 ? `${book.description.substring(0, 20)}...` : book.description}
+                  <p className="text-xs  text-gray-600 italic">
+                    {book.description.length > 25 ? `${book.description.substring(0, 22)}...` : book.description}
                   </p>
-                  <p className="text-xs sm:text-sm text-gray-700">
+                  <p className="text-xs sm:text-sm text-gray-700 mt-1">
                     {book.readsCount > 0 ? `Reads: ${book.readsCount}` : "No Reads"}
                   </p>
                 </div>
@@ -170,24 +170,25 @@ const Home = () => {
             <div className="flex overflow-x-auto space-x-4">
               {booksByPrimaryGenre[genre].map((book) => (
                 <div key={book._id} className="flex-shrink-0 w-40 sm:w-32 md:w-36">
-                  <Link to={`/book/${book.book}`} className="text-gray-700">
-                    <img
-                      src={book.coverImage || "https://via.placeholder.com/150"}
-                      alt={book.title}
-                      className="object-cover rounded w-full h-[200px] sm:h-[270px] transition-transform transform hover:scale-105"
-                    />
-                    <div className="mt-2">
-                      <p className="text-sm sm:text-base font-bold">
-                        {book.name.length > 20 ? `${book.name.substring(0, 16)}...` : book.name}
-                      </p>
-                      <p className="text-xs sm:text-sm text-gray-600 italic">
-                        {book.description.length > 20 ? `${book.description.substring(0, 20)}...` : book.description}
-                      </p>
-                      <p className="text-xs sm:text-sm text-gray-700">
-                        {book.readsCount > 0 ? `Reads: ${book.readsCount}` : "No Reads"}
-                      </p>
-                    </div>
-                  </Link>
+                   <Link to={`/book/${book.book}`} className="text-gray-700">
+                <img
+                  src={book.coverImage || "https://via.placeholder.com/150"}
+                  alt={book.title}
+                  loading="lazy"
+                  className="object-cover rounded w-full h-[200px] sm:h-[270px] transition-transform transform hover:scale-105"
+                />
+                <div className="mt-2">
+                  <p className="text-xs  font-bold">
+                    {book.name.length > 20 ? `${book.name.substring(0, 20)}...` : book.name}
+                  </p>
+                  <p className="text-xs  text-gray-600 italic">
+                    {book.description.length > 25 ? `${book.description.substring(0, 22)}...` : book.description}
+                  </p>
+                  <p className="text-xs sm:text-sm text-gray-700 mt-1">
+                    {book.readsCount > 0 ? `Reads: ${book.readsCount}` : "No Reads"}
+                  </p>
+                </div>
+              </Link>
                 </div>
               ))}
             </div>

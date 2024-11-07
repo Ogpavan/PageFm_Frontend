@@ -11,8 +11,6 @@ import { BookmarkProvider } from './context/BookmarkContext';
 import Footer from './components/Footer';
 import SignUp from './pages/SignUp';
 import CareerPage from './pages/CareerPage.jsx';
-import WriterDashboard from './pages/Dashboard/WriterDashboard';
-import RJDashboard from './pages/Dashboard/RJDashboard';
 import { auth, db } from '../src/pages/firebaseConfig';
 import { getDoc, doc } from 'firebase/firestore';
 import AudioUpload from './components/AudioUpload';
@@ -65,8 +63,7 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           
-          <Route path="/writer-dashboard" element={<WriterDashboard />} />
-          <Route path="/rj-dashboard" element={<RJDashboard />} />
+        
           <Route path="/admin" element={<AdminPanel />} />
           <Route path='/career' element={<CareerPage />} />
           <Route path="/genre/:genre" element={<GenrePage />} /> 
