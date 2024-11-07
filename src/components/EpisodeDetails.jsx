@@ -14,7 +14,7 @@ const EpisodeDetails = () => {
 
 
   useEffect(() => {
-    window.scrollTo({ top: 0 });
+    window.scrollTo({ top: 0 ,behavior: "smooth" });
   }, [episodeId, bookId]); 
 
   useEffect(() => {
