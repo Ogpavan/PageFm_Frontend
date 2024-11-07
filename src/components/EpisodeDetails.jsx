@@ -4,13 +4,18 @@ import axios from 'axios';
 import Loader from './Loader';
 import { GoArrowRight } from "react-icons/go";
 
-const EpisodeDetails = ({ setShowNavbar, setShowFooter }) => {
+const EpisodeDetails = () => {
   const { episodeId, bookId } = useParams();
   const [episode, setEpisode] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [book, setBook] = useState(null);
   const navigate = useNavigate();
+
+
+  useEffect(() => {
+    window.scrollTo({ top: 0 });
+  }, [episodeId, bookId]); 
 
   useEffect(() => {
     const fetchBookAndEpisode = async () => {
