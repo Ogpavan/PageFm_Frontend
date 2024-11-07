@@ -27,8 +27,20 @@ const BookDetailsPage = () => {
 
   const predefinedGenres = [
     'Fiction', 'Non-fiction', 'Fantasy', 'Science Fiction', 
-    'Mystery', 'Romance', 'Thriller', 'Biography'
-  ];
+    'Mystery', 'Romance', 'Thriller', 'Biography', 'Horror',
+    'Self-Help', 'Cooking', 'Travel', 'History', 'Finance',
+    'Poetry', 'Art', 'Philosophy', 'Education', 'Children',
+    'Adventure', 'Drama', 'Psychology', 'Health & Fitness',
+    'Religion', 'Spirituality', 'Science', 'Politics', 
+    'Sports', 'Technology', 'Music', 'Photography', 
+    'Parenting', 'Environment', 'Crime', 'True Crime',
+    'Graphic Novels', 'Comics', 'Memoir', 'Humor', 
+    'Business', 'Anthology', 'Western', 'Dystopian', 
+    'Literary Fiction', 'Historical Fiction', 'Young Adult',
+    'New Adult', 'LGBTQ+', 'Folklore', 'Mythology',
+    'Urban Fantasy', 'Paranormal', 'Military', 'Short Stories'
+];
+
 
   // Check authentication state and set user ID
   useEffect(() => {
